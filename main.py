@@ -1,4 +1,5 @@
 # main.py
+from performance_metrics import sharpe_ratio, sortino_ratio, max_drawdown, realized_unrealized_pnl
 from market_maker_bot import MarketMakerBot
 from order_flow import generate_orders
 from pnl_tracker import PnLTracker
@@ -185,3 +186,20 @@ for bar in bars:
 
 plt.tight_layout()
 plt.show()
+
+# Extended performance metrics
+print("\n📊 Performance Metrics:")
+for entry in bots:
+    bot = entry["bot"]
+    pnl = entry["pnl"]
+    series = entry["pnl_over_time"]
+    final_price = fair_prices[-1]
+
+    sharpe = sharpe_ratio(series)
+    sortino = sortino_ratio(series)
+    mdd = max_drawdown(series)
+    realized, unrealized = realized_unrealized_pnl(pnl.cash, pnl.inventory, final_price)
+
+    print(f"{bot.name:<12} | Sharpe: {sharpe:.2f} | Sortino: {sortino:.2f} | "
+          f"Max DD: ${mdd:.2f} | Realized: ${realized:.2f} | Unrealized: ${unrealized:.2f}")
+
