@@ -1,9 +1,7 @@
-# pnl_tracker.py
-
 class PnLTracker:
     def __init__(self):
-        self.cash = 0
         self.inventory = 0
+        self.cash = 0.0
 
     def buy(self, price, size):
         self.inventory += size
@@ -13,5 +11,5 @@ class PnLTracker:
         self.inventory -= size
         self.cash += price * size
 
-    def total_pnl(self, fair_price):
-        return self.cash + self.inventory * fair_price
+    def total_pnl(self, current_price):
+        return self.cash + self.inventory * current_price
